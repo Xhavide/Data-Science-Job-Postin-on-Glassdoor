@@ -94,7 +94,11 @@ FROM dbo.[Data Science Job Postin on Glassdoor]
 
 WITH row_numCTE AS(
 SELECT *,
-ROW_NUMBER() OVER ( PARTITION BY [Salary Estimate], [Company Name], [Location] ORDER BY [Job Title]) AS row_num
+        ROW_NUMBER() OVER ( 
+	PARTITION BY [Salary Estimate], 
+	             [Company Name], 
+	             [Location]
+	    ORDER BY [Job Title]) AS row_num
 FROM dbo.[Data Science Job Postin on Glassdoor]
 )
 

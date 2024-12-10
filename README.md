@@ -7,7 +7,9 @@ In this project I used SQL Server to clean data. This dataset was dowloaded from
 
 
 
+
 The following steps were necessery for cleaning data:
+
 
 
 

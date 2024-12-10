@@ -10,3 +10,11 @@ In this project I used SQL Server to clean data. This dataset was dowloaded from
 The following steps were necessery for cleaning data:
 
 
+
+- Removing unnecessary characters, and separating data into individual columns;
+- Removing duplicate rows by creating a CTE with the window
+  function ROW_NUMBER;
+- Using the ‘TRIM’ function to remove all unwanted spaces from all text columns;
+- Handling missing values using SQL functions like IS NULL and COALESCE, and then populating them with other values;
+- Deleting unused columns.
+

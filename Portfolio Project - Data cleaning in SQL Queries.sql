@@ -11,7 +11,7 @@ Cleaning Data in SQL Queries
 SELECT *
 FROM dbo.[Data Science Job Postin on Glassdoor];
 
---Removing text part from the 'Salary Estmate' column
+--Removing text part from the 'Salary Estimate' column
 
 
 SELECT [Salary Estimate]

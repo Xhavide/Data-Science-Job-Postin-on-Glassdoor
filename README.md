@@ -1,7 +1,7 @@
-<h1>Data Science Job Postin on Glassdoor - Data cleaning in SQL Queries.sql</h1>
+<h1>Data Science Job Postin on Glassdoor </h1>
 
 
-
+<h2>Data cleaning using SQL Queries</h2>
 
 Data cleaning is a crucial process in any data analysis project to ensure that the data used for analysis or modeling is accurate, consistent, and reliable. 
 This includes identifying and correcting or removing inaccuracies, inconsistencies, and errors in the data. 

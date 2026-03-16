@@ -101,8 +101,6 @@ SELECT *,
 	    ORDER BY [Job Title]) AS row_num
 FROM dbo.[Data Science Job Postin on Glassdoor]
 )
-
---SELECT *
 DELETE
 FROM  row_numCTE 
 WHERE row_num > 1

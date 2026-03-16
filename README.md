@@ -24,20 +24,7 @@ The following steps were performed to prepare the dataset for analysis:
 
 - Removed unused columns to simplify the dataset structure
 
-**SQL example**
 
-WITH row_numCTE AS(
-SELECT *,
-        ROW_NUMBER() OVER ( 
-	PARTITION BY [Salary Estimate], 
-	             [Company Name], 
-	             [Location]
-	    ORDER BY [Job Title]) AS row_num
-FROM dbo.[Data Science Job Postin on Glassdoor]
-)
-DELETE
-FROM  row_numCTE 
-WHERE row_num > 1
 
 
 ## Tools Used

@@ -3,22 +3,48 @@
 
 <h2>Data cleaning using SQL Queries</h2>
 
-Data cleaning is a crucial process in any data analysis project to ensure that the data used for analysis or modeling is accurate, consistent, and reliable. 
-This includes identifying and correcting or removing inaccuracies, inconsistencies, and errors in the data. 
-In this project I used SQL Server to clean data. This dataset was dowloaded from Kaggle. The purpose of this dataset is to test my data cleaning skills.
+
+## Project Description
+
+Data cleaning is a critical step in the data analysis process, ensuring that datasets are accurate, consistent, and reliable before analysis or modeling.
+
+In this project, SQL Server was used to clean a dataset downloaded from Kaggle. The primary objective was to practice and demonstrate core data cleaning techniques using SQL queries.
+
+## Data Cleaning Steps
+
+The following steps were performed to prepare the dataset for analysis:
+
+- Removed unnecessary characters and separated combined data into individual columns
+
+- Identified and removed duplicate rows using a CTE with the ROW_NUMBER() window function
+
+- Used the TRIM() function to remove unwanted spaces from text fields
+
+- Handled missing values using SQL functions such as IS NULL and COALESCE
+
+- Removed unused columns to simplify the dataset structure
 
 
 
+## Tools Used
 
-The following steps were necessery for cleaning data:
+- SQL Server
+
+- SQL (CTE, Window Functions, Data Transformation)
+
+
+## Skills Demonstrated
+
+- Data cleaning and preprocessing
+
+- Handling missing data
+
+- Removing duplicates
+
+- Data transformation using SQL
+
+- Window functions and CTE usage
 
 
 
-
-- Removing unnecessary characters, and separating data into individual columns;
-- Removing duplicate rows by creating a CTE with the window
-  function ROW_NUMBER;
-- Using the ‘TRIM’ function to remove all unwanted spaces from all text columns;
-- Handling missing values using SQL functions like IS NULL and COALESCE, and then populating them with other values;
-- Deleting unused columns.
 

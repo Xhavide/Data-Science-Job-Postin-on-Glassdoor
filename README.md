@@ -25,6 +25,21 @@ The following steps were performed to prepare the dataset for analysis:
 - Removed unused columns to simplify the dataset structure
 
 
+## Example SQL Step – Removing Duplicate Rows
+
+A CTE with the `ROW_NUMBER()` window function was used to identify and remove duplicate records.
+
+```sql
+WITH DuplicatesCTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER(
+               PARTITION BY column1, column2
+               ORDER BY column1
+           ) AS row_num
+    FROM dataset
+)
+DELETE FROM DuplicatesCTE
+WHERE row_num > 1;
 
 
 ## Tools Used

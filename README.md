@@ -26,22 +26,18 @@ The following steps were performed to prepare the dataset for analysis:
 
 **SQL example**
 
-
-
-
-
-WITH DuplicatesCTE AS (
-    SELECT *,
-           ROW_NUMBER() OVER(PARTITION BY column1, column2 ORDER BY column1) AS row_num
-    FROM dataset
+WITH row_numCTE AS(
+SELECT *,
+        ROW_NUMBER() OVER ( 
+	PARTITION BY [Salary Estimate], 
+	             [Company Name], 
+	             [Location]
+	    ORDER BY [Job Title]) AS row_num
+FROM dbo.[Data Science Job Postin on Glassdoor]
 )
-DELETE FROM DuplicatesCTE
-WHERE row_num > 1;
-
-
-
-
-
+DELETE
+FROM  row_numCTE 
+WHERE row_num > 1
 
 
 ## Tools Used

@@ -45,7 +45,24 @@ WITH row_numCTE AS(
 DELETE
 FROM  row_numCTE 
 WHERE row_num > 1;
+```
 
 
+## Tools Used
 
+- SQL Server
+
+- SQL (CTE, Window Functions, Data Transformation)
+
+## Skills Demonstrated
+
+- Data cleaning and preprocessing
+
+- Handling missing data
+
+- Removing duplicates
+
+- Data transformation using SQL
+
+- Window functions and CTE usage
 

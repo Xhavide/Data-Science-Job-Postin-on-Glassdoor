@@ -60,7 +60,7 @@ WHERE row_num > 1;
 
   ------------
 
-## Skills Demonstrated
+## 🧠 Skills Demonstrated
 
 - Data cleaning and preprocessing
 

@@ -52,7 +52,7 @@ WHERE row_num > 1;
 
 ----------
 
-## Tools Used
+## 🛠 Tools Used
 
 - SQL Server
 

@@ -5,7 +5,7 @@
 
 --------
 
-## Project Description
+## 📌Project Description
 
 Data cleaning is a critical step in the data analysis process, ensuring that datasets are accurate, consistent, and reliable before analysis or modeling.
 

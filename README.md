@@ -3,12 +3,15 @@
 
 <h2>Data cleaning using SQL Queries</h2>
 
+--------
 
 ## Project Description
 
 Data cleaning is a critical step in the data analysis process, ensuring that datasets are accurate, consistent, and reliable before analysis or modeling.
 
 In this project, SQL Server was used to clean a dataset downloaded from Kaggle. The primary objective was to practice and demonstrate core data cleaning techniques using SQL queries.
+
+--------
 
 ## Data Cleaning Steps
 
@@ -24,7 +27,7 @@ The following steps were performed to prepare the dataset for analysis:
 
 - Removed unused columns to simplify the dataset structure
 
-
+-----------
 
 
 ## Example SQL Step – Removing Duplicate Rows
@@ -47,12 +50,15 @@ FROM  row_numCTE
 WHERE row_num > 1;
 ```
 
+----------
 
 ## Tools Used
 
 - SQL Server
 
 - SQL (CTE, Window Functions, Data Transformation)
+
+  ------------
 
 ## Skills Demonstrated
 
@@ -65,4 +71,23 @@ WHERE row_num > 1;
 - Data transformation using SQL
 
 - Window functions and CTE usage
+
+
+----------
+
+
+## 👩‍💻 Author
+
+**Xhavide Zymberi Ebibi**
+
+Data Analyst Enthusiast | SQL & Business Intelligence | Tableau | Marketing Professional
+
+[GitHub]()
+
+[LinkedIn](https://www.linkedin.com/in/xhavide-zymberi/) 
+
+
+
+
+
 

@@ -13,7 +13,7 @@ In this project, SQL Server was used to clean a dataset downloaded from Kaggle. 
 
 --------
 
-## Data Cleaning Steps
+## 🧹Data Cleaning Steps
 
 The following steps were performed to prepare the dataset for analysis:
 

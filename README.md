@@ -1,7 +1,7 @@
 <h1>Data Science Job Postin on Glassdoor </h1>
 
 
-<h2>Data cleaning using SQL Queries</h2>
+<h2>Data Cleaning Using SQL Queries</h2>
 
 --------
 

@@ -58,27 +58,15 @@ SET Converted_Salary = REPLACE(REPLACE(Salary,'$', ''),'K', '')
 ---------------------------------------------------------------------------------------------------------------------------------
 
 
---Separating the 'Location' column into individual columns 'State' and 'City' column
+-- Split Location into City and State
 
-
-
-SELECT Location
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-SELECT PARSENAME(REPLACE(Location, ',' , '.'), 2)
-,PARSENAME(REPLACE(Location, ',' , '.'), 1)
+SELECT 
+     PARSENAME(REPLACE(Location, ',', '.'), 2) AS City,
+     PARSENAME(REPLACE(Location, ',', '.'), 1) AS State
 FROM dbo.[Data Science Job Postin on Glassdoor];
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD City nvarchar(30)
 
 UPDATE dbo.[Data Science Job Postin on Glassdoor]
 SET City = PARSENAME(REPLACE(Location, ',' , '.'), 2)
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD State nvarchar(20)
 
 UPDATE dbo.[Data Science Job Postin on Glassdoor]
 SET State = PARSENAME(REPLACE(Location, ',' , '.'), 1)
@@ -88,24 +76,20 @@ FROM dbo.[Data Science Job Postin on Glassdoor]
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-
---Removing duplicates
-
-
-WITH row_numCTE AS(
-SELECT *,
-        ROW_NUMBER() OVER ( 
-	PARTITION BY [Salary Estimate], 
-	             [Company Name], 
-	             [Location]
-	    ORDER BY [Job Title]) AS row_num
-FROM dbo.[Data Science Job Postin on Glassdoor]
+-- Remove duplicates
+	
+WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER(
+	PARTITION BY 
+	         [Job Title], 
+	         [Location],
+	         [Company Name] 
+	ORDER BY [Job Title]) AS rn
+    FROM dbo.[Data Science Job Postin on Glassdoor]
 )
-DELETE
-FROM  row_numCTE 
-WHERE row_num > 1
---ORDER BY [Job Title], [Salary Estimate],[Location]
-
+DELETE FROM CTE
+WHERE rn > 1;
 
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -196,67 +180,21 @@ WHERE [State] IS NULL;
 --We are going to populate the City column using the State  column
 
 
-SELECT COALESCE( City, State) AS City_State
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD City_State nvarchar(30)
-
 UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET City_State = COALESCE( City, State) 
+SET [City] = COALESCE( City, State) 
+
+SELECT *
+FROM dbo.[Data Science Job Postin on Glassdoor];
 
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-
---Removing numbers from the 'Company Name' column
-
-
-
-SELECT [Company Name],
-SUBSTRING([Company Name],1, PATINDEX('%[a-z]%',[Company Name])-1) AS CN
-,RIGHT([Company Name],LEN([Company Name])- PATINDEX('%[a-z]%',[Company Name])+1) AS CName
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Company_Name1 int
-
+-- Remove numbers from Company Name
+	
 UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Company_Name1 = SUBSTRING([Company Name],1, PATINDEX('%[a-z]%',[Company Name])-1)
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Company_Name2 VARCHAR(100)
-
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Company_Name2 = RIGHT([Company Name],LEN([Company Name])-PATINDEX('%[a-z]%',[Company Name])+1)
-
-
-SELECT [Company_Name2]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-
-SELECT [Company_Name2],
-TRIM(TRANSLATE([Company_Name2],'0.123456789','           ')) AS ComNam, 
-TRIM(TRANSLATE([Company_Name2],'abcdefghijklmnopqrstuvwxyz','                          ')) AS ComNumber 
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Company_Name VARCHAR(100)
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Company_Name = TRIM(TRANSLATE([Company_Name2],'0.123456789','           '))
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Company_Number int
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Company_Number = TRIM(TRANSLATE([Company_Name2],'abcdefghijklmnopqrstuvwxyz','                          '))
-
+SET [Company_Name] = TRIM(
+    TRANSLATE([Company_Name], '0123456789', '          ')
+);
 
 SELECT *
 FROM dbo.[Data Science Job Postin on Glassdoor];
@@ -264,9 +202,7 @@ FROM dbo.[Data Science Job Postin on Glassdoor];
 -------------------------------------------------------------------
 
 
-
 --Delete unused columns
-
 
 ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
 DROP COLUMN [index], Salary, Int_Salary, Salary1, Salary2, Int_Salary1, Salary_Int, Salary_Estimate, Salary_Integer,
@@ -276,7 +212,15 @@ DROP COLUMN [index], Salary, Int_Salary, Salary1, Salary2, Int_Salary1, Salary_I
 
 ALTER TABLE  dbo.[Data Science Job Postin on Glassdoor]
 DROP COLUMN [Salary Estimate], [Company Name], [Location]
+----------------------
 
+-- Data Quality Summary
+	
+SELECT 
+    COUNT(*) AS total_rows,
+    COUNT(DISTINCT [Company_Name]) AS unique_companies,
+    COUNT(DISTINCT [City_State]) AS unique_locations
+FROM dbo.[Data Science Job Postin on Glassdoor];
 
 
 

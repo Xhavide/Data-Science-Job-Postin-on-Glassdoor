@@ -202,7 +202,7 @@ FROM dbo.[Data Science Job Postin on Glassdoor];
 -------------------------------------------------------------------
 
 
---Delete unused columns
+-- Drop intermediate columns created during cleaning
 
 ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
 DROP COLUMN [index], Salary, Int_Salary, Salary1, Salary2, Int_Salary1, Salary_Int, Salary_Estimate, Salary_Integer,

@@ -1,31 +1,26 @@
-<h1>Data Science Job Postin on Glassdoor </h1>
+<h1>📊 Job Market Analysis – End-to-End Project </h1>
 
 
-<h2>Data Cleaning Using SQL Queries</h2>
 
 --------
 
 ## 📌Project Description
 
-Data cleaning is a critical step in the data analysis process, ensuring that datasets are accurate, consistent, and reliable before analysis or modeling.
+This project analyzes data science job postings using a complete data workflow:
 
-In this project, SQL Server was used to clean a dataset downloaded from Kaggle. The primary objective was to practice and demonstrate core data cleaning techniques using SQL queries.
+1. Data Cleaning in SQL  
+2. Exploratory Data Analysis (EDA)  
+3. Data Visualization in Tableau  
+
+The goal is to transform raw data into actionable insights about salaries, job demand, and market trends.
 
 --------
 
-## 🧹Data Cleaning Steps
+## 🔗 Project Sections
 
-The following steps were performed to prepare the dataset for analysis:
-
-- Removed unnecessary characters and separated combined data into individual columns
-
-- Identified and removed duplicate rows using a CTE with the ROW_NUMBER() window function
-
-- Used the TRIM() function to remove unwanted spaces from text fields
-
-- Handled missing values using SQL functions such as IS NULL and COALESCE
-
-- Removed unused columns to simplify the dataset structure
+🧹 Data Cleaning → /data-cleaning-sql  
+📊 SQL Analysis → /eda-sql  
+📈 Tableau Dashboard → /tableau-dashboard  
 
 -----------
 

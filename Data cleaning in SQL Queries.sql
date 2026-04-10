@@ -3,224 +3,147 @@
 Cleaning Data in SQL Queries
 
 */
------------------------------------------------------------------------------------------------------------------------------------
 
-
---View dataset
-
-SELECT *
-FROM dbo.[Data Science Job Postin on Glassdoor];
-
---Removing text part from the 'Salary Estimate' column
-
-
-SELECT [Salary Estimate]
-FROM dbo.[Data Science Job Postin on Glassdoor];
-
-SELECT 
-SUBSTRING ([Salary Estimate], 1, CHARINDEX('(', [Salary Estimate])-1) AS Salary1
-,SUBSTRING ([Salary Estimate] , CHARINDEX('(', [Salary Estimate])+1, LEN([Salary Estimate])) AS Salary1
-FROM dbo.[Data Science Job Postin on Glassdoor];
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Salary nvarchar(25)
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Salary = SUBSTRING ([Salary Estimate], 1, CHARINDEX('(', [Salary Estimate])-1)
-
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Salary2 nvarchar(25)
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Salary2 = SUBSTRING ([Salary Estimate] , CHARINDEX('(', [Salary Estimate])+1, LEN([Salary Estimate]))
-
+-- =========================================
+-- 1. CREATE WORKING TABLE
+-- =========================================
 
 SELECT *
+INTO dbo.ds_jobs_cleaned
 FROM dbo.[Data Science Job Postin on Glassdoor];
 
 
+-- =========================================
+-- 2. REMOVE DUPLICATES
+-- =========================================
 
---Now we are going to remove the $ sign and K letter from Salary column
-
-
-SELECT *,REPLACE(REPLACE(Salary,'$', ''),'K', '') 
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-ADD Converted_Salary nvarchar(20)
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET Converted_Salary = REPLACE(REPLACE(Salary,'$', ''),'K', '') 
-
-
----------------------------------------------------------------------------------------------------------------------------------
-
-
--- Split Location into City and State
-
-SELECT 
-     PARSENAME(REPLACE(Location, ',', '.'), 2) AS City,
-     PARSENAME(REPLACE(Location, ',', '.'), 1) AS State
-FROM dbo.[Data Science Job Postin on Glassdoor];
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET City = PARSENAME(REPLACE(Location, ',' , '.'), 2)
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET State = PARSENAME(REPLACE(Location, ',' , '.'), 1)
-
-SELECT *
-FROM dbo.[Data Science Job Postin on Glassdoor]
-
---------------------------------------------------------------------------------------------------------------------------------
-
--- Remove duplicates
-	
 WITH CTE AS (
     SELECT *,
-           ROW_NUMBER() OVER(
-	PARTITION BY 
-	         [Job Title], 
-	         [Location],
-	         [Company Name] 
-	ORDER BY [Job Title]) AS rn
-    FROM dbo.[Data Science Job Postin on Glassdoor]
+           ROW_NUMBER() OVER (
+               PARTITION BY [Job Title], [Company Name], Location
+               ORDER BY [Job Title]
+           ) AS rn
+    FROM dbo.ds_jobs_cleaned
 )
 DELETE FROM CTE
 WHERE rn > 1;
 
 
---------------------------------------------------------------------------------------------------------------------------------
+-- =========================================
+-- 3. CLEAN SALARY COLUMN
+-- =========================================
+-- Add new columns
 
---Check Null values across columns
+ALTER TABLE dbo.ds_jobs_cleaned
+ADD Salary_Min INT,
+    Salary_Max INT,
+    Salary_Avg INT;
 
+-- Extract salary range (remove text like "(Glassdoor est.)")
 
-SELECT COUNT(*) [Job Title]  
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Job Title] IS NULL;
-
-SELECT COUNT(*) [Salary Estimate]  
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Salary Estimate]  IS NULL;
-
-SELECT COUNT(*) [Job Description]  
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE  [Job Description]   IS NULL;
-
-
-SELECT COUNT(*) [Rating] 
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Rating] IS NULL;
-
-SELECT COUNT(*)[Company Name] 
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Company Name] IS NULL;
-
-SELECT COUNT(*) [Location]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Location] IS NULL;
+UPDATE dbo.ds_jobs_cleaned
+SET [Salary Estimate] = SUBSTRING([Salary Estimate], 1, CHARINDEX('(', [Salary Estimate]) - 1)
+WHERE [Salary Estimate] LIKE '%(%';
 
 
-SELECT COUNT(*) [Headquarters]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Headquarters] IS NULL;
+-- Remove $ and K
+
+UPDATE dbo.ds_jobs_cleaned
+SET [Salary Estimate] = REPLACE(REPLACE([Salary Estimate], '$', ''), 'K', '');
 
 
-SELECT COUNT(*) [Size]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Size] IS NULL;
+-- Split into min and max salary
 
-SELECT COUNT(*) [Founded]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Founded] IS NULL;
-
-SELECT COUNT(*) [Type of ownership]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Type of ownership] IS NULL;
-
-SELECT COUNT(*) [Industry]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Industry] IS NULL;
-
-SELECT COUNT(*) [Sector]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Job Title] IS NULL;
-
-SELECT COUNT(*) [Revenue]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Job Title] IS NULL;
-
-SELECT COUNT(*) [Competitors]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [Competitors] IS NULL;
+UPDATE dbo.ds_jobs_cleaned
+SET Salary_Min = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 2) AS INT),
+    Salary_Max = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 1) AS INT);
 
 
---There are 169 Null values in Competitors column
+-- Average salary
 
-SELECT COUNT(*) [Salary]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE[Salary] IS NULL;
-
-SELECT COUNT(*) [City]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [City] IS NULL;
+UPDATE dbo.ds_jobs_cleaned
+SET Salary_Avg = (Salary_Min + Salary_Max) / 2;
 
 
---There are 22 Nulls in City column
+-- =========================================
+-- 4. CLEAN COMPANY NAME
+-- =========================================
+-- Remove ratings from company name (e.g., "CompanyName 3.8")
 
-
-SELECT COUNT(*) [State]
-FROM dbo.[Data Science Job Postin on Glassdoor]
-WHERE [State] IS NULL;
-
-
-
---We are going to populate the City column using the State  column
-
-
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET [City] = COALESCE( City, State) 
-
-SELECT *
-FROM dbo.[Data Science Job Postin on Glassdoor];
-
-
--------------------------------------------------------------------------------------------------------------------------------
-
--- Remove numbers from Company Name
-	
-UPDATE dbo.[Data Science Job Postin on Glassdoor]
-SET [Company_Name] = TRIM(
-    TRANSLATE([Company_Name], '0123456789', '          ')
+UPDATE dbo.ds_jobs_cleaned
+SET [Company Name] = TRIM(
+    LEFT([Company Name], PATINDEX('%[0-9]%', [Company Name] + '0') - 1)
 );
 
-SELECT *
-FROM dbo.[Data Science Job Postin on Glassdoor];
+-- =========================================
+-- 5. SPLIT LOCATION INTO CITY & STATE
+-- =========================================
 
--------------------------------------------------------------------
+ALTER TABLE dbo.ds_jobs_cleaned
+ADD City NVARCHAR(50),
+    State NVARCHAR(50);
+
+UPDATE dbo.ds_jobs_cleaned
+SET City = PARSENAME(REPLACE(Location, ',', '.'), 2),
+    State = PARSENAME(REPLACE(Location, ',', '.'), 1);
 
 
--- Drop intermediate columns created during cleaning
+-- =========================================
+-- 6. HANDLE MISSING VALUES (-1 → NULL)
+-- =========================================
 
-ALTER TABLE dbo.[Data Science Job Postin on Glassdoor]
-DROP COLUMN [index], Salary, Int_Salary, Salary1, Salary2, Int_Salary1, Salary_Int, Salary_Estimate, Salary_Integer,
-            Salary_Integers, Salary_Est, Int_Converted_Salary, Company, Converted_Salary_Int,
-			Converted_S, Converted_Salary1, Converted_Salary_Varchar, Converted_Salary_N, 
-			Converted_Salary_NU, Company_Name1, Company_Name2, Company_Number
+UPDATE dbo.ds_jobs_cleaned
+SET Competitors = NULL
+WHERE Competitors = '-1';
 
-ALTER TABLE  dbo.[Data Science Job Postin on Glassdoor]
-DROP COLUMN [Salary Estimate], [Company Name], [Location]
-----------------------
+UPDATE dbo.ds_jobs_cleaned
+SET Revenue = NULL
+WHERE Revenue = '-1';
 
--- Data Quality Summary
-	
+UPDATE dbo.ds_jobs_cleaned
+SET Industry = NULL
+WHERE Industry = '-1';
+
+UPDATE dbo.ds_jobs_cleaned
+SET Sector = NULL
+WHERE Sector = '-1';
+
+
+-- =========================================
+-- 7. STANDARDIZE RATING
+-- =========================================
+
+UPDATE dbo.ds_jobs_cleaned
+SET Rating = NULL
+WHERE Rating = -1;
+
+
+-- =========================================
+-- 8. DATA QUALITY CHECK
+-- =========================================
+
 SELECT 
     COUNT(*) AS total_rows,
-    COUNT(DISTINCT [Company_Name]) AS unique_companies,
-    COUNT(DISTINCT [City_State]) AS unique_locations
-FROM dbo.[Data Science Job Postin on Glassdoor];
+    COUNT(DISTINCT [Company Name]) AS unique_companies,
+    COUNT(DISTINCT Location) AS unique_locations,
+    COUNT(DISTINCT [Job Title]) AS unique_roles
+FROM dbo.ds_jobs_cleaned;
 
 
+-- =========================================
+-- 9. FINAL CLEAN VIEW
+-- =========================================
 
+SELECT 
+    [Job Title],
+    [Company Name],
+    City,
+    State,
+    Salary_Min,
+    Salary_Max,
+    Salary_Avg,
+    Rating,
+    Industry,
+    Sector,
+    Revenue
+FROM dbo.ds_jobs_cleaned;

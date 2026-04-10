@@ -186,7 +186,7 @@ GROUP BY [Job Title]
 ORDER BY avg_salary DESC;
 ```
 
-Full **SQL scripts** available [here]()
+Full **SQL scripts** available [here](https://github.com/Xhavide/Job-Market-Analysis-End-to-End-Project/blob/def937a982e96fad1fc70dcec925968d3f5210cb/Exploratory%20Data%20Analysis%20(EDA)%20in%20SQL.sql)
 
 ---------
 

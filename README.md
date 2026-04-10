@@ -8,9 +8,11 @@
 
 This project analyzes data science job postings using a complete data workflow:
 
-1. Data Cleaning in SQL  
-2. Exploratory Data Analysis (EDA)  
-3. Data Visualization in Tableau  
+**1.** Data Cleaning in SQL 
+
+**2.** Exploratory Data Analysis (EDA)
+
+**3.** Data Visualization in Tableau 
 
 The goal is to transform raw data into actionable insights about salaries, job demand, and market trends.
 

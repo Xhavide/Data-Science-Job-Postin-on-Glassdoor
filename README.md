@@ -92,7 +92,10 @@ SET Salary_Min = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 2) AS 
     Salary_Max = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 1) AS INT);
 ```
 
+Full SQL scripts available here
+
 ----------
+
 ## 🧠 Key Takeaways
 
 - Real-world datasets often contain inconsistent formats and placeholder values
@@ -310,19 +313,37 @@ To ensure reliable insights:
 
 🔗 Live Dashboard [here](https://public.tableau.com/app/profile/xhavide.zymberi/viz/DataScienceJobMarketAnalysisDashboard/JobMarketAnalysisDashboard)
 
-
-
-
-
-
 ---------
+
+
+## 📂 Main Repository Structure
+
+```
+job-market-analysis
+│
+├── data-cleaning
+│   ├── sql
+│   └── README.md
+│
+├── eda-sql
+│   ├── sql
+│   └── README.md
+│
+├── tableau-dashboard
+│   ├── images
+│   └── README.md
+│
+└── README.md  ← MAIN PROJECT OVERVIEW
+```
+
+---------------
 
 
 ## ⭐ Final Thought
 
 This project demonstrates how raw data can be transformed into clear, actionable insights using SQL and Tableau, supporting better decision-making in the data job market.
 
-
+------------
 
 
 ## 👩‍💻 Author

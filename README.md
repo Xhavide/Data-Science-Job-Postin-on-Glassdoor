@@ -24,7 +24,7 @@ The goal is to transform raw data into actionable insights about salaries, job d
 
 -----------
 
- # 1) 🧹 Data Cleaning in SQL – Job Market Dataset
+ # 🧹 1. Data Cleaning in SQL – Job Market Dataset
 
 ## 📌 Project Overview
 
@@ -141,7 +141,7 @@ data-cleaning-sql
 ```
 -----------
 
-# 2. 📊 Exploratory Data Analysis (EDA) in SQL – Job Market Dataset
+# 📊 2. Exploratory Data Analysis (EDA) in SQL – Job Market Dataset
 
 ## 📌 Project Overview
 
@@ -227,14 +227,97 @@ eda-sql-job-market
 │   └── eda_queries.sql
 ├── README.md
 ```
+--------------
 
 
+# 📈 3. Data Science Job Market Analysis Dashboard
 
+## 📌 Project Overview
 
+This project explores the **data job market in the United States** using SQL and Tableau.
+The goal is to analyze **salary trends, job demand, and industry distribution** to uncover actionable insights for job seekers and data professionals.
 
-
+The dataset was first cleaned and prepared using SQL, then transformed into an **interactive Tableau dashboard** for visualization and analysis.
 
 ----------
+
+## 🚀 Dashboard Features
+
+- 💰 **Average Salary Overview** – Key KPI highlighting overall market compensation
+- 📄 **Total Job Postings** – Number of available roles in the dataset
+- 🏢 **Total Companies** – Unique companies hiring for data roles
+- 📍 **Top Paying State** – Highest average salary by location Top Paying State – Highest average salary by location
+
+----------
+
+## 📊 Visual Analysis
+
+- **Salary by Job Title** – Compare compensation across roles (Data Scientist, Data Engineer, etc.)
+- **Salary by State (Map)** – Geographic distribution of salaries
+- **Salary Range by Industry** – Min, Avg, Max salary comparison
+- **Industry Analysis** – Identify high-paying industries
+- **Company Hiring Activity** – Most active hiring companies
+- **Rating vs Salary** – Relationship between company ratings and compensation
+
+------------
+
+## 🔍 Key Insights
+
+- 📍 **New York** emerges as the top-paying state with ~**$130K average salary**
+- 💼 **Senior Data Engineer** roles reach up to $148K, leading all positions
+- 📊 Salaries are largely concentrated in the **$110K–$130K range**, indicating a competitive market
+- 🏭 **Consulting and IT industries** offer above-average compensation
+- 📈 Higher salaries are generally associated with **senior-level roles and specialized skills**
+
+-----------
+
+## 🧹 Data Preparation (SQL)
+
+Data cleaning steps included:
+
+- Removing inconsistent salary formats (e.g., $, K)
+- Converting salary values into numeric format
+- Splitting location into City and State
+- Cleaning company names and removing unwanted characters
+- Handling missing values and validating data consistency
+
+---------
+
+## ⚠️ Notes
+
+Some views may be empty due to applied filters. Adjust filters to explore available data.
+
+To ensure reliable insights:
+
+- Outliers were reviewed and validated
+- Aggregation logic was standardized (AVG instead of SUM where appropriate)
+- Minimum data thresholds were applied for meaningful comparisons
+
+-----------
+
+## 🛠️ Tools & Technologies
+
+- SQL (SQL Server) – Data cleaning and transformation
+- Tableau Public – Data visualization and dashboard design
+- GitHub – Project documentation and version control
+
+---------
+
+## 📷 Dashboard Preview
+
+(Add your screenshot here)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 👩‍💻 Author

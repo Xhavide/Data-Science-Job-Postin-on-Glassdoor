@@ -24,48 +24,132 @@ The goal is to transform raw data into actionable insights about salaries, job d
 
 -----------
 
+ # 1) 🧹 Data Cleaning in SQL – Job Market Dataset
 
-## Example SQL Step – Removing Duplicate Rows
+## 📌 Project Overview
 
-A CTE with the `ROW_NUMBER()` window function was used to identify and remove duplicate records.
+This project focuses on cleaning and transforming a real-world dataset of data science job postings to ensure data quality, consistency, and usability for analysis.
 
+Using SQL Server, raw data was processed into a structured, analysis-ready format by handling inconsistencies, missing values, and formatting issues.
 
-```sql
-WITH row_numCTE AS(
-     SELECT *,
-        ROW_NUMBER() OVER ( 
-	        PARTITION BY [Salary Estimate], 
-                            [Company Name], 
-	                     [Location]
-	          ORDER BY [Job Title]) AS row_num
-      FROM dbo.[Data Science Job Postin on Glassdoor]
+-----------
+
+## 🗂 Dataset
+
+The dataset contains job market data, including:
+
+- Job Title
+- Company Name
+- Location
+- Salary Estimate
+- Rating
+- Industry, Sector, Revenue
+- Competitors
+
+  ---------------
+
+  
+## ⚙️ Data Cleaning Process
+
+The dataset required multiple transformation steps:
+
+- Removed duplicate records using ROW_NUMBER()
+- Cleaned and standardized the Salary Estimate column
+- Extracted Salary Min, Max, and Average values
+- Split Location into City and State
+- Removed company rating values from Company Name
+- Replaced placeholder values (e.g., -1) with NULL
+- Standardized numerical fields (e.g., Rating)
+- Dropped redundant and intermediate columns
+
+--------
+
+## 💻 Example SQL Step – Removing Duplicate Rows
+
+```
+WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER(
+               PARTITION BY [Job Title], Location, [Company Name]
+               ORDER BY [Job Title]
+           ) AS rn
+    FROM dbo.[Data Science Job Postin on Glassdoor]
 )
-DELETE
-FROM  row_numCTE 
-WHERE row_num > 1;
+DELETE FROM CTE
+WHERE rn > 1;
+```
+
+
+
+## Example SQL Step – Extract and clean salary range
+```
+UPDATE dbo.ds_jobs_cleaned
+SET [Salary Estimate] = SUBSTRING([Salary Estimate], 1, CHARINDEX('(', [Salary Estimate]) - 1)
+WHERE [Salary Estimate] LIKE '%(%';
+
+UPDATE dbo.ds_jobs_cleaned
+SET Salary_Min = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 2) AS INT),
+    Salary_Max = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 1) AS INT);
 ```
 
 ----------
+## 🧠 Key Takeaways
+
+- Real-world datasets often contain inconsistent formats and placeholder values
+- Cleaning salary data requires string manipulation and type conversion
+- Proper handling of missing values improves data reliability
+- Structuring location and company data enhances usability for analysis
+
+------------
 
 ## 🛠 Tools Used
 
 - SQL Server
-
-- SQL (CTE, Window Functions, Data Transformation)
+- SQL (Data Cleaning, Transformations, Window Functions)
 
   ------------
+  
+## 📊 Data Quality Summary
 
-## 🧠 Skills Demonstrated
+- Duplicate records removed
+- Missing values standardized
+- Salary data transformed into numeric format
+- Dataset structured for downstream analysis
 
-- Data cleaning and preprocessing
+------------
 
-- Handling missing data
+## 💼 Business Relevance
 
-- Removing duplicates
+Clean and reliable data is essential for accurate insights.
+This project demonstrates how raw job market data can be transformed into a structured dataset that supports:
 
-- Data transformation using SQL
+- Salary analysis
+- Market trends evaluation
+- Industry benchmarking
 
-- Window functions and CTE usage
+----------
+
+
+## 📂 Repository Structure
+
+```
+data-cleaning-sql
+│
+├── sql
+│   └── data_cleaning_queries.sql
+├── README.md
+```
+-----------
+
+
+
+
+
+
+
+
+
+
 
 
 ----------

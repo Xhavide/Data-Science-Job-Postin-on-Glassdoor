@@ -335,6 +335,8 @@ Data Analyst Enthusiast | SQL & Business Intelligence | Tableau | Marketing Prof
 
 [LinkedIn](https://www.linkedin.com/in/xhavide-zymberi/) 
 
+[Tableau](https://public.tableau.com/app/profile/xhavide.zymberi/vizzes)
+
 
 
 

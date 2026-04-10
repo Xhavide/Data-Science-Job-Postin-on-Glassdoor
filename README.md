@@ -92,7 +92,7 @@ SET Salary_Min = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 2) AS 
     Salary_Max = TRY_CAST(PARSENAME(REPLACE([Salary Estimate], '-', '.'), 1) AS INT);
 ```
 
-Full SQL scripts available here
+Full **SQL scripts** available [here](https://github.com/Xhavide/Job-Market-Analysis-End-to-End-Project/blob/8aa78d92ac6fc18f672f869627c82889488c3f0c/Data%20cleaning%20in%20SQL%20Queries.sql)
 
 ----------
 
@@ -185,6 +185,8 @@ FROM dbo.ds_jobs_cleaned
 GROUP BY [Job Title]
 ORDER BY avg_salary DESC;
 ```
+
+Full **SQL scripts** available [here]()
 
 ---------
 

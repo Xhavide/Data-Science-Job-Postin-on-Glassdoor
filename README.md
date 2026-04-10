@@ -308,7 +308,7 @@ To ensure reliable insights:
 ![](https://github.com/Xhavide/Job-Market-Analysis-End-to-End-Project/blob/abb6f964c2d90108813aaf1eae96acb180c69040/Screenshot%202026-04-10%20051750.png)
 
 
-🔗 Live Dashboard([here](https://public.tableau.com/app/profile/xhavide.zymberi/viz/DataScienceJobMarketAnalysisDashboard/JobMarketAnalysisDashboard))
+🔗 Live Dashboard [here](https://public.tableau.com/app/profile/xhavide.zymberi/viz/DataScienceJobMarketAnalysisDashboard/JobMarketAnalysisDashboard)
 
 
 

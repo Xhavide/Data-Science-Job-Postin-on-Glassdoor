@@ -141,10 +141,92 @@ data-cleaning-sql
 ```
 -----------
 
+# 2. 📊 Exploratory Data Analysis (EDA) in SQL – Job Market Dataset
+
+## 📌 Project Overview
+
+This project focuses on exploring a cleaned dataset of data science job postings to uncover insights related to salaries, job distribution, company demand, and market trends.
+
+Using SQL, the dataset was analyzed to identify patterns that can support job market understanding and data-driven decision-making.
+
+---------
+
+## 🎯 Business Questions
+
+- Which job roles offer the highest salaries?
+- Which locations have the highest demand for data roles?
+- How does salary vary across industries?
+- Do higher-rated companies offer better salaries?
+- What is the distribution of salaries across the market?
+
+------------
 
 
+## 📊 Key Analysis Areas
 
+- Salary analysis by job title
+- Geographic distribution of jobs
+- Company hiring trends
+- Industry-level salary comparison
+- Salary distribution segmentation
 
+-----------
+
+## 💻 Example SQL
+
+```
+SELECT 
+    [Job Title],
+    ROUND(AVG(Salary_Avg), 0) AS avg_salary
+FROM dbo.ds_jobs_cleaned
+GROUP BY [Job Title]
+ORDER BY avg_salary DESC;
+```
+
+---------
+
+## 💡 Key Insights
+
+- Senior and specialized roles tend to offer significantly higher salaries
+- Certain states dominate job availability, indicating regional demand concentration
+- Salary levels vary across industries, reflecting differences in skill demand
+- Higher company ratings show moderate correlation with salary levels
+- Most job postings fall within the mid-salary range, indicating a competitive market
+
+-----------
+
+## 🛠 Tools Used
+- SQL Server
+- SQL (Aggregations, Grouping, Data Analysis)
+
+--------
+
+## ⚠️ Limitations
+- Dataset represents a snapshot and may not reflect long-term trends
+- Salary estimates are ranges and may vary from actual compensation
+
+----------
+
+## 💼 Business Relevance
+
+This analysis provides insights into:
+
+- Job market demand
+- Salary benchmarking
+- Industry hiring trends
+- Geographic opportunities
+
+---------
+
+## 📂 Repository Structure
+
+```
+eda-sql-job-market
+│
+├── sql
+│   └── eda_queries.sql
+├── README.md
+```
 
 
 

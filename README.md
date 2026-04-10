@@ -305,7 +305,7 @@ To ensure reliable insights:
 
 ## 📷 Dashboard Preview
 
-([](https://github.com/Xhavide/Job-Market-Analysis-End-to-End-Project/blob/99554f14dc8b9cff4506c33a712bd7fdce22011b/Screenshot%202026-04-10%20051750.png))
+![](https://github.com/Xhavide/Job-Market-Analysis-End-to-End-Project/blob/abb6f964c2d90108813aaf1eae96acb180c69040/Screenshot%202026-04-10%20051750.png)
 
 
 

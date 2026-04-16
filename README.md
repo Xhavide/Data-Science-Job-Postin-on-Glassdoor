@@ -71,11 +71,11 @@ The dataset required multiple transformation steps:
 ```
 WITH CTE AS (
     SELECT *,
-           ROW_NUMBER() OVER(
-               PARTITION BY [Job Title], Location, [Company Name]
+           ROW_NUMBER() OVER (
+               PARTITION BY [Job Title], [Company Name], Location
                ORDER BY [Job Title]
            ) AS rn
-    FROM dbo.[Data Science Job Postin on Glassdoor]
+    FROM dbo.ds_jobs_cleaned
 )
 DELETE FROM CTE
 WHERE rn > 1;

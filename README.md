@@ -80,7 +80,18 @@ WITH CTE AS (
 DELETE FROM CTE
 WHERE rn > 1;
 ```
-
+```
+WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY [Job Title], [Company Name], Location
+               ORDER BY [Job Title]
+           ) AS rn
+    FROM dbo.ds_jobs_cleaned
+)
+DELETE FROM CTE
+WHERE rn > 1;
+```
 
 
 ## Example SQL Step – Extract and clean salary range
